@@ -1,10 +1,10 @@
 ;;; xah-fly-keys.el --- ergonomic modal keybinding minor mode. -*- coding: utf-8; lexical-binding: t; -*-
 
-;; Copyright © 2013, 2025 by Xah Lee
+;; Copyright © 2013, 2026 by Xah Lee
 
 ;; Author: Xah Lee ( http://xahlee.info/ )
 ;; Maintainer: Xah Lee <xah@xahlee.org>
-;; Version: 28.11.20260106081151
+;; Version: 28.11.20260204154143
 ;; Created: 2013-09-10
 ;; Package-Requires: ((emacs "28.3"))
 ;; Keywords: convenience, vi, vim, ergoemacs, keybinding
@@ -1162,7 +1162,7 @@ Version: 2025-03-25"
 
 (defun xah-fill-or-unfill ()
   "Reformat current block or selection to short/long line.
-First call will break into multiple short lines. Repeated call toggles between short and long lines.
+First call breaks text into multiple lines. Repeated call toggles between multiple and singe line.
 This commands calls `fill-region' to do its work. Set `fill-column' for short line length.
 
 URL `http://xahlee.info/emacs/emacs/emacs_unfill-paragraph.html'
@@ -1679,7 +1679,7 @@ If there is selection, delete it first.
 
 URL `http://xahlee.info/emacs/emacs/elisp_insert-date-time.html'
 Created: 2013-05-10
-Version: 2025-09-04"
+Version: 2026-02-04"
   (interactive)
   (let (xmenu xstyle)
     (setq
@@ -1690,7 +1690,9 @@ Version: 2025-09-04"
       (concat "coder⚫" (format-time-string "%Y-%m-%d_%H%M%S"))
       (concat "all digits⚫" (format-time-string "%Y%m%d%H%M%S"))
 
-      (concat "unix seconds⚫" (number-to-string (car (let ((current-time-list nil)) (current-time)))))
+      (concat "unix seconds⚫"
+              ;; (number-to-string (car (let ((current-time-list nil)) (current-time))))
+              (number-to-string (time-convert (current-time) 'integer)))
 
       ;; (concat "ISO full⚫" (format-time-string "%Y-%m-%dT%T") (funcall (lambda (xx) (format "%s:%s" (substring xx 0 3) (substring xx 3 5))) (format-time-string "%z")))
 
@@ -1720,7 +1722,7 @@ Else
 • If WrapMethod is `block', wrap around block.
 Else
 • If cursor is at beginning of line and its not empty line and contain at least 1 space, wrap around the line.
-• If cursor is at end of a word or buffer, one of the following will happen:
+• If cursor is at end of a word or buffer, one of the following happens:
  xyz▮ → xyz(▮)
  xyz▮ → (xyz▮)       if in one of the lisp modes.
 • wrap brackets around word if any. e.g. xy▮z → (xyz▮). Or just (▮)
@@ -1845,25 +1847,36 @@ xString can be multiple chars or any string.
  '(
    ;;
    ("smile beaming 😊" . "😊")
-   ("tears of joy" . "😂")
+   ("omg 😂" . "😂")
    ("hug 🤗" . "🤗")
    ("heart eyes 😍" . "😍")
    ("heart face 🥰" . "🥰")
    ("angry 😠" . "😠")
    ("vomit 🤮" . "🤮")
+   ("clown 🤡" . "🤡")
+   ("skull 💀" . "💀")
+
+   ("pig 🐷" . "🐷")
+   ("cow 🐮" . "🐮")
+   ("sun 🌞" . "🌞")
+   ("heart 🧡" . "🧡")
+
    ("thumb up 👍" . "👍")
    ("thumb down 👎" . "👎")
-   ("tv 📺" . "📺")
-   ("lotus 🪷" . "🪷")
-   ("checkmark ✅" . "✅")
-   ("new 🆕" . "🆕")
+
    ("glowing star 🌟" . "🌟")
    ("star ⭐" . "⭐")
    ("sparkles ✨" . "✨")
+
+   ("tv 📺" . "📺")
+
+   ("lotus 🪷" . "🪷")
+   ("butterfly 🦋" . "🦋")
+   ("LADY bug BEETLE 🐞" . "🐞")
+
+   ("checkmark ✅" . "✅")
+   ("new 🆕" . "🆕")
    ("rocket 🚀" . "🚀")
-   ("sun 🌞" . "🌞")
-   ("heart 🧡" . "🧡")
-   ("clown 🤡" . "🤡")
    ("large circle" . "⭕")
    ("cross ❌" . "❌")
    ("red triangle 🔺" . "🔺")
@@ -2064,11 +2077,11 @@ Version: 2025-11-18"
       (skip-chars-forward "-_[:word:]")
       (setq mark-active t))
 
-     ;; ((and (looking-at "[[:blank:]]")
+     ;; ((and (looking-at "[:blank:]")
      ;;       (prog2 (backward-char) (looking-at "[[:blank:]]") (forward-char)))
      ;;  ;; (message "%s debug: left and right both space" real-this-command)
-     ;;  (skip-chars-backward "[[:blank:]]") (push-mark (point) t t)
-     ;;  (skip-chars-forward "[[:blank:]]"))
+     ;;  (skip-chars-backward "[:blank:]") (push-mark (point) t t)
+     ;;  (skip-chars-forward "[:blank:]"))
 
      ((and (looking-at "\n")
            (eq (char-before) 10))
@@ -2494,10 +2507,11 @@ Version: 2025-08-07"
         (progn
           (with-current-buffer xoutbuf (erase-buffer))
           (apply 'start-process (append (list "xah-run" xoutbuf) (split-string xappCmdStr " +" t) (list Filename) nil))
-          ;; (display-buffer xoutbuf)
-          (pop-to-buffer xoutbuf)
+          (display-buffer xoutbuf)
+          ;; (pop-to-buffer xoutbuf)
           ;; (with-current-buffer xoutbuf (goto-char (point-min)))
-          )))))
+          ))))
+  (message "done. %s" real-this-command))
 
 (defun xah-clean-empty-lines ()
   "Replace repeated blank lines to just 1, in whole buffer or selection.
@@ -3584,6 +3598,7 @@ Version: 2024-04-22"
        ("r t RET" . kmacro-edit-macro)
        ("r t SPC" . kmacro-step-edit-macro)
        ("r t TAB" . kmacro-insert-counter)
+       ;; kmacro-start-macro-or-insert-counter
 
        ("r t a" . kmacro-add-counter)
        ("r t b" . kmacro-bind-to-key)
