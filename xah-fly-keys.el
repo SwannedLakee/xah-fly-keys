@@ -4,7 +4,7 @@
 
 ;; Author: Xah Lee ( http://xahlee.info/ )
 ;; Maintainer: Xah Lee <xah@xahlee.org>
-;; Version: 28.11.20260204154143
+;; Version: 28.11.20260215192642
 ;; Created: 2013-09-10
 ;; Package-Requires: ((emacs "28.3"))
 ;; Keywords: convenience, vi, vim, ergoemacs, keybinding
@@ -3745,7 +3745,7 @@ Version: 2024-04-22"
        ("v" . xah-forward-right-bracket)
        ("w" . xah-next-window-or-frame)
        ("x" . xah-toggle-letter-case)
-       ("y" . xah-fly-cancel)
+       ("y" . set-mark-command)
        ("z" . xah-goto-matching-bracket)))
 
     ;;
