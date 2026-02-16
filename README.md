@@ -13,7 +13,7 @@ Major key engine rewrite by Dan Langlois (https://github.com/DanLanglois) and Wi
 
 ## Key Diagram (QWERTY)
 
-![xah-fly-keys qwerty layout](i/xah_fly_keys_qwerty_layout_2025-08-02.png)
+![xah-fly-keys qwerty layout](i/xah_fly_keys_qwerty_layout_2026-02-15_201120.png)
 
 ## Manual Install
 
